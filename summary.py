@@ -41,7 +41,7 @@ failed_members = set(mem['name'] for mem in origin if mem['status'] == 'error')
 n_member = len(main.memberlist)
 n_success = n_member - len(failed_members)
 pushdata['title'] = f'自动智慧团建：({n_success}/{n_member})人已完成'
-if errorcount > 0:
+if failed_members:
     if n_success == 0:
         pushdata['desp'] += '所有人任务均失败'
     else:
