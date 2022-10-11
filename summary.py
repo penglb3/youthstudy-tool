@@ -60,7 +60,7 @@ except:
 
 #Actions Summary
 print('正在生成运行结果')
-summary='## 执行结果\n#### PS：由于安全性问题，详细结果请使用推送功能\n'+Finishpage+'\n|序号|青年大学习打卡状态|\n|-|-|'
+summary='## 执行结果\n#### PS：由于安全性问题，详细结果请使用推送功能\n|序号|青年大学习打卡状态|\n|-|-|'
 count=0
 for i in origin:
     count+=1
