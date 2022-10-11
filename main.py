@@ -136,6 +136,7 @@ if __name__ == '__main__':#防止import的时候被执行
             profile=GetProfile(xLitemallToken)#初始化类
 
             score=profile.score()#获取打卡前积分，用于后续计算
+            output={'result':''}
             # 每日签到
             print('=====每日签到=====')
             if config['study']['dailycheckin']=='yes':
@@ -170,10 +171,10 @@ if __name__ == '__main__':#防止import的时候被执行
                 else:
                     saveHistory = requests.post('https://youthstudy.12355.net/saomah5/api/young/course/chapter/saveHistory', headers=headers, data=data)
                     StudyStatus=json.loads(saveHistory.text).get('msg')
+                output['result'] += f'大学习   | 更新日期:{updateDate}，名称:{name}，打卡状态:{StudyStatus}\n'
             else:
                 StudyStatus='跳过执行'
             print('更新日期:',updateDate,'\n名称:',name,'\n打卡状态:',StudyStatus)
-
 
             #学习频道
             channellist=['1457968754882572290','1442413897095962625','1442413983955804162']#分别为 广东共青团原创专区、我们爱学习、团务小百科
@@ -219,9 +220,10 @@ if __name__ == '__main__':#防止import的时候被执行
                         addScore_output='达到每日积分限制，跳过执行'
                     channel_output+=channelNow+addScore_output+'<br>'
                 channel_output=channel_output.rstrip('<br>')
+                output['result'] += f"学习频道 | {channel_output}"
             else:
-                channel_output='跳过执行'
-                print(channel_output)
+                print('跳过执行')
+            
             #我要答题
             print('我要答题:',end='')
             if config['study']['answer_questions']=='yes':
@@ -254,22 +256,24 @@ if __name__ == '__main__':#防止import的时候被执行
                         print(json.loads(submit.text).get('msg'),end='')
                         submit_output=submit_output+json.loads(submit.text).get('msg')
                     print('\n')
+                    
                 else:
                     print('达到每日积分限制，跳过执行')
                     submit_output='达到每日积分限制，跳过执行'
+                output['result'] += f"我要答题 | {channel_output}"
             else:
                 submit_output='跳过执行'
                 print(submit_output)
 
             statusOutput=statusOutput+str(count)+'\t'+StudyStatus+'\n'
-            output={}
+            
             output['member']=member
             output['name']=profile.name()
             if IsStudied==True or config['study']['youthstudy']!='yes':
                 output['status']='passed'
             else:
                 output['status']=name+'签到'+json.loads(saveHistory.text).get('msg')
-            output['result']='<b>更新日期:</b>'+updateDate+'<br><b>名称:</b>'+name+'<br><b>打卡状态:</b>'+StudyStatus+'<br><b>=====学习频道=====</b><br>'+channel_output+'<br><b>我要答题:</b>'+submit_output
+           
             output['score']=score
             output_list.append(output)
         except:
