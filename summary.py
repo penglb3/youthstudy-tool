@@ -15,20 +15,20 @@ except:
     print('Token读取失败，不再推送！')
     pass
 
-time.sleep(60)#平台统计有延迟
-for member in origin:
-    XLtoken=main.ConverMidToXLToken(member['member'])
-    profile=main.GetProfile(XLtoken)
-    score_now=profile.score()
-    score_add=score_now-member['score']
-    score_thrsh = [100, 200, 500, 1000, 5000]
-    score_need = 0
-    for threshold in score_thrsh:
-        if score_now < threshold:
-            score_need = threshold - score_now
-            break
-    member['result']+=f'此次执行增加了{str(score_add)}积分，当前为{profile.medal()}，距离下一徽章还需{str(score_need)}积分\n'
-    if config['dailycheckin'] == 'yes' or config['studychannel'] == 'yes' or config['answer_questions'] == 'yes':
+if config['study']['dailycheckin'] == 'yes' or config['study']['studychannel'] == 'yes' or config['study']['answer_questions'] == 'yes':
+    time.sleep(60)#平台统计有延迟
+    for member in origin:
+        XLtoken=main.ConverMidToXLToken(member['member'])
+        profile=main.GetProfile(XLtoken)
+        score_now=profile.score()
+        score_add=score_now-member['score']
+        score_thrsh = [100, 200, 500, 1000, 5000]
+        score_need = 0
+        for threshold in score_thrsh:
+            if score_now < threshold:
+                score_need = threshold - score_now
+                break
+        member['result']+=f'此次执行增加了{str(score_add)}积分，当前为{profile.medal()}，距离下一徽章还需{str(score_need)}积分\n'
         pushdata['desp'] += f"名称:{member['name']}: {member['result']}"
 
 #检查token
