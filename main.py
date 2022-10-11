@@ -51,9 +51,9 @@ config = configparser.ConfigParser()
 #默认配置
 config['study'] = {
     'youthstudy': 'yes',
-    'dailycheckin': 'yes',
-    'studychannel': 'yes',
-    'answer_questions': 'yes'
+    'dailycheckin': 'no',
+    'studychannel': 'no',
+    'answer_questions': 'no'
 }
 config['push'] = {
     'push': 'yes',
