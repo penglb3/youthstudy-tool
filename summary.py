@@ -2,7 +2,7 @@ import requests,json,main,time,os,re
 with open('result.json','r',encoding='utf8') as origin_file:
     origin=origin_file.read()
 origin=json.loads(origin)
-pushdata={'desp':'', 'title':''}
+pushdata={'desp':'详细结果：\n', 'title':''}
 config=main.config
 #推送渠道
 # pushdata['channel']=config['push']['channel']
@@ -30,6 +30,8 @@ if config['study']['dailycheckin'] == 'yes' or config['study']['studychannel'] =
                 break
         member['result']+=f'此次执行增加了{str(score_add)}积分，当前为{profile.medal()}，距离下一徽章还需{str(score_need)}积分\n'
         pushdata['desp'] += f"名称:{member['name']}: {member['result']}"
+else:
+    pushdata['desp'] += "\n".join(f"名称:{member['name']}: {member['result']}" for member in origin)
 
 #检查token
 if ('token' in locals().keys()) == True:
@@ -43,9 +45,9 @@ n_success = n_member - len(failed_members)
 pushdata['title'] = f'自动智慧团建：({n_success}/{n_member})人已完成'
 if failed_members:
     if n_success == 0:
-        pushdata['desp'] += '所有人任务均失败'
+        pushdata['desp'] += '\n所有人任务均失败'
     else:
-        pushdata['desp'] += f'失败名单：{failed_members}'
+        pushdata['desp'] += f'\n失败名单：{failed_members}'
 
 #向Server酱出推送请求
 try:
