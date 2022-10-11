@@ -28,7 +28,7 @@ for member in origin:
             score_need = threshold - score_now
             break
     member['result']+=f'此次执行增加了{str(score_add)}积分，当前为{profile.medal()}，距离下一徽章还需{str(score_need)}积分\n'
-    if config['dailycheckin'] == 'yes' or config['studychannel'] == 'yes' or config['answer_questions'] == 'yes'
+    if config['dailycheckin'] == 'yes' or config['studychannel'] == 'yes' or config['answer_questions'] == 'yes':
         pushdata['desp'] += f"名称:{member['name']}: {member['result']}"
 
 #检查token
