@@ -12,8 +12,7 @@ on:
         - 'no'
   #以上勿动
   schedule:
-    # UTC4:00(北京UTC+8 12:00点)触发任务
-    - cron: '0 4 * * *'
+    - cron: '0 3 * * 1,3'
 
 env:
   MEMBER: ${{ secrets.mid }}
